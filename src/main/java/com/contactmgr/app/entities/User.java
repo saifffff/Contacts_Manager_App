@@ -28,7 +28,8 @@ public class User {
 	private Boolean enabled;
 	
 	//mapping
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	/* User entity becomes the owning side of the one-to-many relationship with Contact */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	private List<Contact> contacts = new ArrayList<>();
 	
 	

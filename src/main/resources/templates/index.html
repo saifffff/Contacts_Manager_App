@@ -2,18 +2,15 @@
 <html lang="en"
 xmlns="http://www.w3.org/1999/xhtml"
 xmlns:th="http://www.thymeleaf.org"
+th:replace="base::layout(~{::section})"
 >
 <head>
-	<link th:replace="components::bootstrap_css" />
-	<script th:replace="components::bootstrap_js"></script>
-	<meta charset="UTF-8" />
-	<title>Welcome</title>
+<title>Index</title>
 </head>
 <body>
-<nav th:replace="components::navbar('Home')"></nav>
-<div class="container-fluid" th:object="${'myuser'}"></div>
-	<h1>Welcome to Smart Contacts Manager</h1>
-	<h2>Saved User's Name is <span th:text="${myuser.name}"></span></h2>
-	<h2>Saved User's Email is <span th:text="${myuser.email}"></span></h2>
+ <section>
+ 	<h2>this is section from index</h2>
+ 	<p>this is the content that we are sending as an argument to the fragment layout</p>
+ </section>
 </body>
 </html>

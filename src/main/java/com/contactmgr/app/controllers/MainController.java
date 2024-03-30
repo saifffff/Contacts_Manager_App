@@ -15,20 +15,16 @@ public class MainController {
 	
 	
 	@RequestMapping("/")
-	public String goHome(Model model) {
+	public String goHome() {
 		System.out.println("go home ..");
-		User myuser = new User();
-		myuser.setName("shakure");
-		myuser.setEmail("lalthakur@gmail.com");
-		try {
-			userDao.save(myuser);
-			model.addAttribute("myuser", myuser);
-			System.out.println("user save successfully..");
-			
-		} catch (Exception e) {
-			System.out.println("failed to save user..");
-			e.printStackTrace();
-		}
+		
 		return "index";
+	}
+	
+	@RequestMapping("/about")
+	public String goAbout() {
+		System.out.println("go about ..");
+		
+		return "about";
 	}
 }
