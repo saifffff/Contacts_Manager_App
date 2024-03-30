@@ -15,16 +15,16 @@ public class MainController {
 	
 	
 	@RequestMapping("/")
-	public String goHome() {
+	public String goHome(Model model) {
 		System.out.println("go home ..");
-		
+		model.addAttribute("title","Home - Smart Contacts Manager");
 		return "index";
 	}
 	
 	@RequestMapping("/about")
-	public String goAbout() {
+	public String goAbout(Model model) {
 		System.out.println("go about ..");
-		
+		model.addAttribute("title","About - Smart Contacts Manager");
 		return "about";
 	}
 }
