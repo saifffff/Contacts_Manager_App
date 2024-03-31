@@ -11,20 +11,40 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
+	@NotBlank(message="Name cannot be empty")
 	private String name;
+	
+	@NotBlank(message = "Email cannot be blank")
+	@Email(message = "Please enter a valid email")
 	@Column(unique = true)
 	private String email;
-	private String Password;
+	
+	@NotBlank(message = "Password cannot be empty")
+	@Size(min=6, max=16, message = "Password must be between 6 to 16 characters long")
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$",
+	message = "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character")
+	private String password;
+	
+	private String gender;
+	
 	@Column(length = 500) // sets column length to 500 chars
 	private String about;
+	
 	private String imageURL;
+	
 	private String role;
+	
 	private Boolean enabled;
 	
 	//mapping
@@ -69,13 +89,16 @@ public class User {
 	}
 
 
+
+
+
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 
 
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
 
 
@@ -130,11 +153,22 @@ public class User {
 		this.contacts = contacts;
 	}
 
+	public String getGender() {
+		return gender;
+	}
+
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", Password=" + Password + ", about=" + about
-				+ ", imageURL=" + imageURL + ", role=" + role + ", enabled=" + enabled + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", Password=" + password + ", gender="
+				+ gender + ", about=" + about + ", imageURL=" + imageURL + ", role=" + role + ", enabled=" + enabled
+				+ ", contacts=" + contacts + "]";
 	}
 	
 	
