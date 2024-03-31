@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.contactmgr.app.dao.UserRepository;
 import com.contactmgr.app.entities.User;
@@ -44,20 +46,28 @@ public class MainController {
 	
 	@PostMapping("/registerUser")
 	public String handleSignup(Model model,
+			@RequestParam(value="agreement", defaultValue = "false") Boolean agree,
 			@Valid @ModelAttribute("userObj") User user, //It fetches the "userObj" from the model (created in goSignup)
 			BindingResult result) {
-		if(result.hasErrors()) {
+		if(result.hasErrors() || agree == false) {
 			// stay on the page
 			System.out.println("has error");
+			// agreement unchecked
+			if(agree == false) {
+				// Create a custom FieldError for the agreement field
+		        // (even though it's not directly bound to a model attribute)
+		        FieldError error = new FieldError("userObj", "agreement", "Please agree to terms and conditions to proceed.");
+		        // Add the error to the BindingResult
+		        result.addError(error);
+			}
 			System.out.println(result);
 			return "signup";
 		}
-		System.out.println(user.getName());
-		System.out.println(user.getPassword());
-		System.out.println(user.getEmail());
-		System.out.println(user.getGender());
-		User sUser = userDao.save(user);
-		System.out.println("saved user id : "+sUser.getId());
+		user.setRole("normal");
+		user.setEnabled(true);
+		System.out.println(user);
+		//User sUser = userDao.save(user);
+		//System.out.println("saved user id : "+sUser.getId());
 		return "login";
 	}
 	
