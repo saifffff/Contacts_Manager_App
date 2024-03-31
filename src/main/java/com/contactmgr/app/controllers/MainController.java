@@ -1,5 +1,8 @@
 package com.contactmgr.app.controllers;
 
+import java.util.Optional;
+
+import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.contactmgr.app.dao.UserRepository;
 import com.contactmgr.app.entities.User;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -48,7 +52,8 @@ public class MainController {
 	public String handleSignup(Model model,
 			@RequestParam(value="agreement", defaultValue = "false") Boolean agree,
 			@Valid @ModelAttribute("userObj") User user, //It fetches the "userObj" from the model (created in goSignup)
-			BindingResult result) {
+			BindingResult result
+			) {
 		if(result.hasErrors() || agree == false) {
 			// stay on the page
 			System.out.println("has error");
@@ -63,11 +68,17 @@ public class MainController {
 			System.out.println(result);
 			return "signup";
 		}
-		user.setRole("normal");
-		user.setEnabled(true);
-		System.out.println(user);
-		//User sUser = userDao.save(user);
-		//System.out.println("saved user id : "+sUser.getId());
+		
+		try {
+			user.setRole("normal");
+			user.setEnabled(true);
+			User sUser = userDao.save(user);
+			System.out.println("saved user id : "+sUser.getId());
+		} catch (Exception e) {
+			// TODO: handle exception	
+			model.addAttribute("msg","Failed to register : "+user.getEmail());
+			return "signup";
+		}
 		return "login";
 	}
 	
