@@ -54,32 +54,33 @@ public class MainController {
 			@Valid @ModelAttribute("userObj") User user, //It fetches the "userObj" from the model (created in goSignup)
 			BindingResult result
 			) {
-		if(result.hasErrors() || agree == false) {
-			// stay on the page
-			System.out.println("has error");
-			// agreement unchecked
-			if(agree == false) {
-				// Create a custom FieldError for the agreement field
-		        // (even though it's not directly bound to a model attribute)
-		        FieldError error = new FieldError("userObj", "agreement", "Please agree to terms and conditions to proceed.");
-		        // Add the error to the BindingResult
-		        result.addError(error);
-			}
-			System.out.println(result);
-			return "signup";
+				if(result.hasErrors() || agree == false) {
+					// stay on the page
+					System.out.println("has error");
+					// agreement unchecked
+					if(agree == false) {
+						// Create a custom FieldError for the agreement field
+				        // (even though it's not directly bound to a model attribute)
+				        FieldError error = new FieldError("userObj", "agreement", "Please agree to terms and conditions to proceed.");
+				        // Add the error to the BindingResult
+				        result.addError(error);
+					}
+					System.out.println(result);
+					return "signup";
 		}
 		
 		try {
-			user.setRole("normal");
+			user.setRole("USER");
 			user.setEnabled(true);
 			User sUser = userDao.save(user);
 			System.out.println("saved user id : "+sUser.getId());
+			model.addAttribute("msg","Registraion successful for : "+user.getEmail());
 		} catch (Exception e) {
 			// TODO: handle exception	
 			model.addAttribute("msg","Failed to register : "+user.getEmail());
 			return "signup";
 		}
-		return "login";
+		return "signup";
 	}
 	
 	
