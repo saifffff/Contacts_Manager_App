@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,8 @@ import jakarta.validation.Valid;
 public class MainController {
 	@Autowired
 	private UserRepository userDao;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	
 	@RequestMapping("/")
@@ -72,6 +75,7 @@ public class MainController {
 		try {
 			user.setRole("USER");
 			user.setEnabled(true);
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			User sUser = userDao.save(user);
 			System.out.println("saved user id : "+sUser.getId());
 			model.addAttribute("msg","Registraion successful for : "+user.getEmail());
