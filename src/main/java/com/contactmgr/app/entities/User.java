@@ -31,9 +31,7 @@ public class User {
 	private String email;
 	
 	@NotBlank(message = "Password cannot be empty")
-	@Size(min=6, max=16, message = "Password must be between 6 to 16 characters long")
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$",
-	message = "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character")
+	@Column(length = 60)
 	private String password;
 	
 	private String gender;

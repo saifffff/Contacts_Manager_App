@@ -14,4 +14,10 @@ public class UserController {
 		return "normal/userDashboard";
 	}
 	
+	@RequestMapping("/profile")
+	public String profile(Model model) {
+		model.addAttribute("title","Profile - Smart Contacts Manager");
+		return "normal/userProfile";
+	}
+	
 }

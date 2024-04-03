@@ -82,6 +82,7 @@ public class MainController {
 		} catch (Exception e) {
 			// TODO: handle exception	
 			model.addAttribute("msg","Failed to register : "+user.getEmail());
+			e.printStackTrace();
 			return "signup";
 		}
 		return "signup";
