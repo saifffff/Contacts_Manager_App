@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+th:replace="normal/base::layout(~{::section})"
+>
+<head>
+<title>Index</title>
+</head>
+<body>
+ <section>
+ 	<h2>Welcome <span th:text="${cUser.name}"></span></h2>
+ 	<h2> All Contacts </h2>
+ 	<ul th:object="${userContacts}">
+ 	 <li th:each="contact : ${userContacts}">
+        <span th:text="${contact.Name}"></span><br/>
+        <span th:text="${contact.email}"></span><br/>
+        </li>
+ 	</ul>
+ 	
+ </section>
+</body>
+</html>

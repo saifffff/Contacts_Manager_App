@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.contactmgr.app.dao.ContactRepository;
 import com.contactmgr.app.dao.UserRepository;
 import com.contactmgr.app.entities.Contact;
 import com.contactmgr.app.entities.User;
@@ -28,6 +30,8 @@ import com.contactmgr.app.entities.User;
 public class UserController {
 	@Autowired
 	private UserRepository userDao;
+	@Autowired
+	private ContactRepository contactDao;
 
 	
 	
@@ -93,7 +97,19 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
+		
 		return "normal/add-contact";
+	}
+	
+	@RequestMapping("/show-contacts")
+	public String viewContacts(Principal principal, Model model) {
+		// fetch user 
+		User cUser = this.userDao.getUserByEmail(principal.getName());
+		// fetch contact using contactDao
+		List<Contact> allContactByUser = this.contactDao.allContactByUser(cUser.getId());
+		// add to model
+		model.addAttribute("userContacts",allContactByUser);
+		return "normal/show-contacts";
 	}
 	
 }
