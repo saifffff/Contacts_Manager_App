@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -109,6 +111,70 @@ public class UserController {
 		List<Contact> allContactByUser = this.contactDao.allContactByUser(cUser.getId());
 		// add to model
 		model.addAttribute("userContacts",allContactByUser);
+		return "normal/show-contacts";
+	}
+	
+	@RequestMapping("/update-contact")
+	public String updateContact(@RequestParam("contactId")int contactId,
+			Model model
+			) {
+		try {
+			Optional<Contact> opcontact = this.contactDao.findById(contactId);
+			Contact contact = opcontact.get();
+			contact.setCid(contactId);
+			model.addAttribute("myContact",contact);
+			
+			//System.out.println(contact);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "normal/update-contact";
+	}
+	
+	
+	@PostMapping("/update-contact")
+	public String updateHandler(@ModelAttribute Contact con,
+			@RequestParam("contactId") int contactId,
+			@RequestParam("profileImage") MultipartFile image
+			) {
+		// now we have contact id to be updated lets fetch
+		Optional<Contact> opcontact = this.contactDao.findById(contactId);
+		Contact contact = opcontact.get();
+		
+		// transfer data from con to contact
+		contact.setCid(contactId);
+		contact.setName(con.getName());
+		contact.setNickName(con.getNickName());
+		contact.setWork(con.getWork());
+		contact.setEmail(con.getEmail());
+		contact.setAbout(con.getAbout());
+		contact.setPhone(con.getPhone());
+		
+		try {
+			if(!image.isEmpty()) {
+				/* we have to save this image in static/images, so first we need to fetch path
+				 * we will use ClassPathResource
+				 */
+				File res  = new ClassPathResource("static/images").getFile();
+				//delete old image 
+				Files.deleteIfExists(Paths.get(res.getAbsolutePath()+File.separator+contact.getImageURL()));
+				//add new image
+				Path path = Paths.get(res.getAbsolutePath()+File.separator+image.getOriginalFilename());
+				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				contact.setImageURL(image.getOriginalFilename());
+				System.out.println("image replaced");
+			}
+			
+			this.contactDao.save(contact);
+			System.out.println("update success");
+			
+		} catch (Exception e) {
+			System.out.println("image replacement failed");
+			e.printStackTrace();
+		}
+		
+		
+		
 		return "normal/show-contacts";
 	}
 	

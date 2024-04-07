@@ -105,7 +105,7 @@ public class Contact {
 	@Override
 	public String toString() {
 		return "Contact [cid=" + cid + ", Name=" + Name + ", nickName=" + nickName + ", work=" + work + ", email="
-				+ email + ", imageURL=" + imageURL + ", about=" + about + ", phone=" + phone + ", user=" + user + "]";
+				+ email + ", imageURL=" + imageURL + ", about=" + about + ", phone=" + phone + "]";
 	}
 	
 	
