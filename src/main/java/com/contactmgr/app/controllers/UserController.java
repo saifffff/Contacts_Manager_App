@@ -13,9 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,14 +107,26 @@ public class UserController {
 		return "normal/add-contact";
 	}
 	
-	@RequestMapping("/show-contacts")
-	public String viewContacts(Principal principal, Model model) {
+	@RequestMapping("/show-contacts/{page}")
+	public String viewContacts(Principal principal,
+			Model model,
+			@PathVariable("page") Integer page
+			) {
 		// fetch user 
 		User cUser = this.userDao.getUserByEmail(principal.getName());
-		// fetch contact using contactDao
-		List<Contact> allContactByUser = this.contactDao.allContactByUser(cUser.getId());
-		// add to model
-		model.addAttribute("userContacts",allContactByUser);
+		// we are using pagination to get subsets of contact list
+//		we have page_index(page) in request which we are fetching using
+//		path variable,  PageRequest implements pageabe and it takes two args
+//		that is (current page, number of obj(contacts) per page
+		Pageable pageable = PageRequest.of(page, 4);
+		
+		// now lets fetch pages from contact repository
+		Page<Contact> allContacts = this.contactDao.allContactByUser(cUser.getId(), pageable);
+		
+		// add attributes to model for view
+		model.addAttribute("userContacts",allContacts);
+		model.addAttribute("currPage",page);
+		model.addAttribute("totalPages",allContacts.getTotalPages());
 		return "normal/show-contacts";
 	}
 	
