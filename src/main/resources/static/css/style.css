@@ -96,4 +96,15 @@ body{
 	cursor: pointer;
 }
 
+/* card */
+.card{
+	margin: 5px;
+}
+
+/* card image */
+.card-img-top{
+	height: 20rem;
+	object-fit:cover;
+}
+
 

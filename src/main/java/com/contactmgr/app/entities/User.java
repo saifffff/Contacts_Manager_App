@@ -47,7 +47,7 @@ public class User {
 	
 	//mapping
 	/* User entity becomes the owning side of the one-to-many relationship with Contact */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
 	private List<Contact> contacts = new ArrayList<>();
 	
 	

@@ -1,6 +1,7 @@
 package com.contactmgr.app.controllers;
 
 import java.io.File;
+import java.net.http.HttpClient.Redirect;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.contactmgr.app.dao.ContactRepository;
 import com.contactmgr.app.dao.UserRepository;
@@ -132,14 +134,15 @@ public class UserController {
 	
 	@RequestMapping("/update-contact")
 	public String updateContact(@RequestParam("contactId")int contactId,
-			Model model
+			Model model,
+			@RequestParam("page") int page
 			) {
 		try {
 			Optional<Contact> opcontact = this.contactDao.findById(contactId);
 			Contact contact = opcontact.get();
 			contact.setCid(contactId);
 			model.addAttribute("myContact",contact);
-			
+			model.addAttribute("page",page);
 			//System.out.println(contact);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,8 +152,9 @@ public class UserController {
 	
 	
 	@PostMapping("/update-contact")
-	public String updateHandler(@ModelAttribute Contact con,
+	public RedirectView updateHandler(@ModelAttribute Contact con,
 			@RequestParam("contactId") int contactId,
+			@RequestParam("page") Integer page,
 			@RequestParam("profileImage") MultipartFile image
 			) {
 		// now we have contact id to be updated lets fetch
@@ -189,9 +193,37 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
+		String rdUrl = "show-contacts/"+page;
+		return new RedirectView(rdUrl, true);
+	}
+	
+	
+	
+//	delete contact
+	@RequestMapping("/delete-contact")
+	public RedirectView deleteContact(@RequestParam("contactId") int contactId,
+			@RequestParam("page") int page,
+			Principal princiapal
+			) {
 		
+		try {
+			//fetch user
+			User cUser = this.userDao.getUserByEmail(princiapal.getName());
+			//fetch contact
+			Optional<Contact> opcontact = this.contactDao.findById(contactId);
+			Contact contact = opcontact.get();
+			// remove association this will result in deletion of orphan contact
+			cUser.getContacts().remove(contact);
+			this.userDao.save(cUser);
+			
+			System.out.println("Successfully Deleted");
+		} catch (Exception e) {
+			System.out.println("Failed : Cannot Delete Contact with ID : "+contactId);
+			e.printStackTrace();
+		}
 		
-		return "normal/show-contacts";
+		String rdUrl = "show-contacts/"+page;
+		return new RedirectView(rdUrl);
 	}
 	
 }

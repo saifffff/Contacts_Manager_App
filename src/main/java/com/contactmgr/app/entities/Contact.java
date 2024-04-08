@@ -107,6 +107,12 @@ public class Contact {
 		return "Contact [cid=" + cid + ", Name=" + Name + ", nickName=" + nickName + ", work=" + work + ", email="
 				+ email + ", imageURL=" + imageURL + ", about=" + about + ", phone=" + phone + "]";
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return this.cid == ((Contact)obj).getCid();
+	}
 	
 	
 	
