@@ -32,6 +32,7 @@ public class MainController {
 	public String goHome(Model model) {
 		System.out.println("go home ..");
 		model.addAttribute("title","Home - Smart Contacts Manager");
+		model.addAttribute("activeLink","home");
 		return "index";
 	}
 	
@@ -39,6 +40,7 @@ public class MainController {
 	public String goAbout(Model model) {
 		System.out.println("go about ..");
 		model.addAttribute("title","About - Smart Contacts Manager");
+		model.addAttribute("activeLink","about");
 		return "about";
 	}
 	
@@ -93,6 +95,7 @@ public class MainController {
 	public String goLogin(Model model) {
 		System.out.println("go login page...");
 		model.addAttribute("title","Login - Smart Contacts Manager");
+		model.addAttribute("activeLink","login");
 		return "login";
 	}
 	
