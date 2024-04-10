@@ -39,9 +39,17 @@ public class MainController {
 	@RequestMapping("/about")
 	public String goAbout(Model model) {
 		System.out.println("go about ..");
-		model.addAttribute("title","About - Smart Contacts Manager");
+		model.addAttribute("title","Features - Smart Contacts Manager");
 		model.addAttribute("activeLink","about");
 		return "about";
+	}
+	
+	@RequestMapping("/resume")
+	public String goResume(Model model) {
+		System.out.println("go resume page....");
+		model.addAttribute("title","Resume - Mohd Saif Khan");
+		model.addAttribute("activeLink","resume");
+		return "resume";
 	}
 	
 	@RequestMapping("/signup")
