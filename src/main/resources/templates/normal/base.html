@@ -4,6 +4,9 @@ xmlns="http://www.w3.org/1999/xhtml"
 xmlns:th="http://www.thymeleaf.org"
 th:fragment="layout(content)"
 >
+
+	<!-- this is the normal base -->
+
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,8 +55,7 @@ th:fragment="layout(content)"
 			<a href="#" th:href="@{/user/index}" class="item"> <i class="fa-solid fa-house"></i> Home</a>
 			<a href="#" th:href="@{/user/show-contacts/0}" class="item"><i class="fa-solid fa-address-card"></i> View Contacts</a>
 			<a href="#" th:href="@{/user/add-contact}" class="item"><i class="fa-solid fa-user-pen"></i> Add Contact</a>
-			<a href="#" class="item" th:href="@{/user/profile}" ><i class="fa-solid fa-circle-user"></i> Your profile</a>
-			<a href="#" class="item"><i class="fa-solid fa-gear"></i> Settings</a>
+			<a href="#" class="item" th:href="@{/user/profile}" ><i class="fa-solid fa-circle-user"></i> Manage Profile</a>
 			<a href="#" th:href="@{/logout}" class="item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 			
 			<div class="divider"></div>

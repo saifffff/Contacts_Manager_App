@@ -4,6 +4,9 @@ xmlns="http://www.w3.org/1999/xhtml"
 xmlns:th="http://www.thymeleaf.org"
 th:fragment="layout(content)"
 >
+
+	<!-- this is the local base -->
+
   <head>
     
 	  <title th:text="${title}">Base Page</title>
@@ -44,9 +47,9 @@ th:fragment="layout(content)"
     <nav id="navbar" class="navbar nav-menu">
       <ul>
         <li><a href="/" th:classappend="${activeLink == 'home'} ? 'active' : ''" class="nav-link scrollto"><i class="bx bx-home"></i> <span>Home</span></a></li>
-        <li><a href="/about" th:classappend="${activeLink == 'about'} ? 'active' : ''" class="nav-link scrollto"><i class="bi bi-card-checklist"></i> <span>Features</span></a></li>
+        <li><a href="/about" th:classappend="${activeLink == 'about'} ? 'active' : ''" class="nav-link scrollto"><i class="bi bi-card-checklist"></i> <span>Technologies</span></a></li>
         <li><a href="/resume" th:classappend="${activeLink == 'resume'} ? 'active' : ''" class="nav-link scrollto"><i class="bi bi-file-earmark-person"></i> <span>About</span></a></li>
-        <li><a href="/user/index" th:classappend="${activeLink == 'login'} ? 'active' : ''" class="nav-link scrollto"><i class="bi bi-box-arrow-in-right"></i> <span>Login / Sign Up</span></a></li>
+        <li><a href="/user/index" th:classappend="${activeLink == 'login'} ? 'active' : ''" class="nav-link scrollto"><i class="bi bi-box-arrow-in-right"></i> <span>My Contacts</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
 

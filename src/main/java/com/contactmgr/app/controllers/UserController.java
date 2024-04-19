@@ -54,7 +54,7 @@ public class UserController {
 
 	@RequestMapping("/index")
 	public String dashboard(Model model, Principal principal) {
-		model.addAttribute("title","Dashboard - Smart Contacts Manager");
+		model.addAttribute("title","Profile - Smart Contacts Manager");
 		return "normal/userDashboard";
 	}
 	
