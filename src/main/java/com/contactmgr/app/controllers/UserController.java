@@ -58,11 +58,6 @@ public class UserController {
 		return "normal/userDashboard";
 	}
 	
-	@RequestMapping("/profile")
-	public String profile(Model model) {
-		model.addAttribute("title","Profile - Smart Contacts Manager");
-		return "normal/userProfile";
-	}
 	
 	@RequestMapping("/add-contact")
 	public String addContact(Model model) {
@@ -132,17 +127,26 @@ public class UserController {
 		return "normal/show-contacts";
 	}
 	
+	@RequestMapping("/get-contact")
+	public String getContactById(@RequestParam("contactId")int contactId, Model model) {
+		
+		Optional<Contact> opcontact = this.contactDao.findById(contactId);
+		Contact con = opcontact.get();
+		System.out.println(con);
+		model.addAttribute("title","Contact Info");
+		model.addAttribute("contact",con);
+		return "normal/contactCard";
+	}
+	
 	@RequestMapping("/update-contact")
 	public String updateContact(@RequestParam("contactId")int contactId,
-			Model model,
-			@RequestParam("page") int page
+			Model model
 			) {
 		try {
 			Optional<Contact> opcontact = this.contactDao.findById(contactId);
 			Contact contact = opcontact.get();
 			contact.setCid(contactId);
 			model.addAttribute("myContact",contact);
-			model.addAttribute("page",page);
 			//System.out.println(contact);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -150,11 +154,17 @@ public class UserController {
 		return "normal/update-contact";
 	}
 	
+	@PostMapping("/updateUser")
+	public RedirectView updateUser (@ModelAttribute User myUser) {
+		System.out.println("recieved user");
+		System.out.println(myUser);
+		String rdUrl = "index";
+		return new RedirectView(rdUrl,true);
+	}
 	
 	@PostMapping("/update-contact")
 	public RedirectView updateHandler(@ModelAttribute Contact con,
 			@RequestParam("contactId") int contactId,
-			@RequestParam("page") Integer page,
 			@RequestParam("profileImage") MultipartFile image
 			) {
 		// now we have contact id to be updated lets fetch
@@ -193,7 +203,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
-		String rdUrl = "show-contacts/"+page;
+		String rdUrl = "show-contacts/"+0;
 		return new RedirectView(rdUrl, true);
 	}
 	
@@ -202,7 +212,6 @@ public class UserController {
 //	delete contact
 	@RequestMapping("/delete-contact")
 	public RedirectView deleteContact(@RequestParam("contactId") int contactId,
-			@RequestParam("page") int page,
 			Principal princiapal
 			) {
 		
@@ -222,8 +231,17 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
-		String rdUrl = "show-contacts/"+page;
+		String rdUrl = "show-contacts/"+0;
 		return new RedirectView(rdUrl);
 	}
+	
+	@RequestMapping("/update-user")
+	public String updateUser(Model model) {
+		model.addAttribute("title","Update User - Smart Contacts Manager");
+		return "normal/updateProfile";
+	}
+	
+	
+	
 	
 }

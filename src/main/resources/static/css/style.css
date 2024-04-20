@@ -56,7 +56,7 @@ body{
 }
 
 .sidebar{
-	margin-top: 58px;
+	margin-top: 50px;
 	width: 18%;
 	background: white;
 	height:100%;
@@ -96,15 +96,30 @@ body{
 	cursor: pointer;
 }
 
-/* card */
-.card{
-	margin: 5px;
+
+/* table image */
+.table_image{
+	height: 30px;
+	width: 30px;
 }
 
-/* card image */
-.card-img-top{
-	height: 20rem;
-	object-fit:cover;
+
+/* contact card page */
+.cardContainer{
+	height: 100%;
+	width: 50%;
 }
+
+.contactCard{
+	padding: 20px;
+}
+
+.card-img-top{
+	height: 25rem;
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+}
+
 
 

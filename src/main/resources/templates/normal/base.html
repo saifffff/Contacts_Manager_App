@@ -55,7 +55,7 @@ th:fragment="layout(content)"
 			<a href="#" th:href="@{/user/index}" class="item"> <i class="fa-solid fa-house"></i> Home</a>
 			<a href="#" th:href="@{/user/show-contacts/0}" class="item"><i class="fa-solid fa-address-card"></i> View Contacts</a>
 			<a href="#" th:href="@{/user/add-contact}" class="item"><i class="fa-solid fa-user-pen"></i> Add Contact</a>
-			<a href="#" class="item" th:href="@{/user/profile}" ><i class="fa-solid fa-circle-user"></i> Manage Profile</a>
+			<a href="#" class="item" th:href="@{/user/update-user}" ><i class="fa-solid fa-circle-user"></i> Manage Profile</a>
 			<a href="#" th:href="@{/logout}" class="item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 			
 			<div class="divider"></div>
@@ -65,7 +65,7 @@ th:fragment="layout(content)"
 		<!-- Content Area -->
 		<div class="content mt-2">
 		
-			<i onclick="toggleSidebar()" class="fa-solid fa-bars m-3 pointer" ></i>
+			<i onclick="toggleSidebar()" class="fa-solid fa-bars mt-5 pointer" ></i>
 			
 			<div th:replace="${content}"> </div>
 		

@@ -13,44 +13,51 @@ th:replace="normal/base::layout(~{::section})"
 
 			
 
-	<div class="container-fluid cardContainer" >
+	<div class="container-fluid" >
 	<div class="row" th:object="${userContacts}">
 		
-		<div 
-			class="card col-md-4 col-sm-6 col-12 mb-2 mr-2" 
-			style="width: 18rem;"
-			th:each="contact,iterStat : ${userContacts}"
-			>
-<!-- 				  <img class="card-img-top" src="..." th:src="@{'/images/'+${contact.imageURL}}" alt="Card image cap"> -->
-					<img class="card-img-top"
+		<div class="card mr-4 ml-4">
+			
+			<table class="table table-striped">
+			
+				<thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">Name</th>
+				      <th scope="col">Email</th>
+				      <th scope="col">Contact</th>
+				    </tr>
+			 	 </thead>
+			  
+			  <tbody>
+			  
+			  	<tr th:each="contact,iterStat : ${userContacts}">
+			  	<input type="hidden" th:name="${'contact.Name'+iterStat.count}" th:value="${contact.cid}">
+			      <td>
+			      	<img class="table_image"
 				     th:if="${contact.imageURL != null}" 
 				     th:src="@{'/images/'+${contact.imageURL}}"
 				     alt="Card image cap">
 				
-					<img class="card-img-top"  
+					<img class="table_image"  
 					th:if="${contact.imageURL == null}"
 				    th:src="@{/images/defaultPic.jpg}"  alt="Card image cap">
-				     
-				  <input type="hidden" th:name="${'contact.Name'+iterStat.count}" th:value="${contact.cid}">
-				  <div class="card-body">
-				    <h5 class="card-title" th:text="${contact.Name}">Card title</h5>
-				    <p class="card-text" th:text="${contact.about}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				  </div>
-				  <ul class="list-group list-group-flush">
-				    <li class="list-group-item" th:text="${contact.nickName}" >Cras justo odio</li>
-				    <li class="list-group-item" th:text="${contact.phone}" >Dapibus ac facilisis in</li>
-				    <li class="list-group-item" th:text="${contact.email}" >Vestibulum at eros</li>
-				  </ul>
-				  <div class="btns">
-				  	<a href="#" th:href="@{/user/update-contact(contactId=${contact.cid},page=${currPage})}" class="btn btn-secondary">Update</a>
-				  	<a href="#" th:href="@{/user/delete-contact(contactId=${contact.cid},page=${currPage})}" class="btn btn-danger">Delete</a>
-				  </div>
-				  
-			</div>
+			      </td>
+			      <td><a th:href="@{/user/get-contact(contactId=${contact.cid})}"><span th:text="${contact.Name}"></span></a></td>
+			      <td th:text="${contact.email}"></td>
+			      <td th:text="${contact.phone}"></td>
+			    </tr>
+			    
+			  </tbody>
+			  
+			
+			</table>
+			
+		</div>
 		
 	</div>
-			
-<!-- 		pagination -->
+	
+	<!-- 		pagination -->
 
 	<div class="pageContainer">
 		<nav aria-label="Page navigation">
@@ -81,6 +88,8 @@ th:replace="normal/base::layout(~{::section})"
 	</div>
 
 <!-- pagination -->
+	</div>
+	
 	</div>
  	
  </section>
