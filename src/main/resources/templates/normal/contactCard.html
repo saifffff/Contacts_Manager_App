@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+th:replace="normal/base::layout(~{::section})"
+>
+<head>
+<title>Index</title>
+</head>
+<body>
+	<section>
+		<div class="container-fluid cardContainer">
+		
+			<div class="contactCard" th:object="${contact}" >
+			
+				<img class="card-img-top"
+				     th:if="${contact.imageURL != null}" 
+				     th:src="@{'/images/'+${contact.imageURL}}"
+				     alt="Card image cap">
+				
+					<img class="card-img-top"  
+					th:if="${contact.imageURL == null}"
+				    th:src="@{/images/defaultPic.jpg}"  alt="Card image cap">
+				     
+				  <input type="hidden" th:name="${contact.Name}" th:value="${contact.cid}">
+				  <div class="card-body">
+				    <h5 class="card-title" th:text="${contact.Name}">Card title</h5>
+				    <p class="card-text" th:text="${contact.about}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <ul class="list-group list-group-flush">
+				    <li class="list-group-item" th:text="${contact.nickName}" >Cras justo odio</li>
+				    <li class="list-group-item" th:text="${contact.phone}" >Dapibus ac facilisis in</li>
+				    <li class="list-group-item" th:text="${contact.email}" >Vestibulum at eros</li>
+				  </ul>
+				  <div class="btns">
+				  	<a href="#" th:href="@{/user/update-contact(contactId=${contact.cid})}" class="btn btn-secondary">Update</a>
+				  	<a href="#" th:href="@{/user/delete-contact(contactId=${contact.cid})}" class="btn btn-danger">Delete</a>
+				  </div>
+			</div>
+		
+		</div>
+	</section>
+</body>
+</html>

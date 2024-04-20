@@ -122,4 +122,26 @@ body{
 }
 
 
+/* search bar css */
+.search_container{
+	width: 40rem;
+	margin: auto;
+	position: relative;
+	
+}
+
+/* search result csss */
+.search_result{
+	position: absolute;
+	z-index: 999999999;
+	background: white;
+	width: 100%;
+	padding: 10px;
+	border: 1px solid grey;
+	display: none;
+}
+
+
+
+
 

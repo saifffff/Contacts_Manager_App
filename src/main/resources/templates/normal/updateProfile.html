@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+th:replace="normal/base::layout(~{::section})"
+>
+<head>
+<title>Index</title>
+</head>
+<body>
+ <section class="section about-section gray-bg" id="about">
+            <div class="card" style="width: 80%; margin-left: 10rem; height: 100%;">
+ 	<div class="container-fluid">
+	<h1 class="text-center">Update Existing User</h1>
+	<br />
+	
+		<form th:action="@{/user/updateUser}" method="post"  th:object="${cUser}">
+		  <fieldset >
+		  
+		    <div class="mb-3">
+		      <label for="nameLabel" class="form-label">Full Name</label>
+		      <input type="text" 
+		      name="name" 
+		      class="form-control" 
+		      placeholder="Enter Your Full Name"
+		      th:field="${cUser.name}"
+		      
+		      th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}"
+		      >
+			  <div id="validationServerUsernameFeedback" 
+			       class="invalid-feedback"
+			       th:each="err : ${#fields.errors('name')}"
+			       th:text="${err}"
+			       >
+			        
+			      </div>
+			      
+		    </div>
+		    
+		    <div class="mb-3">
+		      <label for="emailLabel" class="form-label">Email</label>
+		      <input type="email" 
+		      name="email" 
+		      class="form-control" 
+		      placeholder="Enter a valid email address"
+		      th:field="${cUser.email}"
+		      th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}"
+		      >
+		      <div id="validationServerUsernameFeedback" 
+			       class="invalid-feedback"
+			       th:each="err : ${#fields.errors('email')}"
+			       th:text="${err}"
+			       >
+			        
+			      </div>
+		    </div>
+		    
+		    <div class="mb-3">
+		      <label for="passwordLabel" class="form-label">Password</label>
+		      <input type="password" 
+		       name="password" 
+		       class="form-control" 
+		       placeholder="Enter your password" 
+		       th:field="${cUser.password}"
+		       th:classappend="${#fields.hasErrors('password') ? 'is-invalid':''}"
+		       >
+		       <div id="validationServerUsernameFeedback" 
+			       class="invalid-feedback"
+			       th:each="err : ${#fields.errors('password')}"
+			       th:text="${err}"
+			       >
+			        
+			      </div>
+		    </div>
+		    
+		    
+		    <div class="mb-3">
+		    <label for="genderLabel" class="form-label">Gender</label>
+		      <select 
+		      class="form-select" 
+		      aria-label="selector"
+		      name="gender"
+		      th:field="${cUser.gender}"
+		      th:classappend="${#fields.hasErrors('gender') ? 'is-invalid':''}"
+		      >
+				  <option value="male">Male</option>
+				  <option value="female">Female</option>
+				  <option value="trans">Transformer</option>
+			</select>
+			</div>
+		    
+		    
+		    <button type="submit" class="btn btn-primary">Update</button>
+		  </fieldset>
+	</form>
+	</div>
+	
+	</div>
+        </section>
+</body>
+</html>
