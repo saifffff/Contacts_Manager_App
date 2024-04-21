@@ -11,10 +11,10 @@ th:replace="normal/base::layout(~{::section})"
  <section class="section about-section gray-bg" id="about">
             <div class="card" style="width: 80%; margin-left: 10rem; height: 100%;">
  	<div class="container-fluid">
-	<h1 class="text-center">Update Existing User</h1>
+	<h1 class="text-center">Profile Settings</h1>
 	<br />
 	
-		<form th:action="@{/user/updateUser}" method="post"  th:object="${cUser}">
+		<form th:action="@{/user/process-update-profile}" method="post"  th:object="${cUser}">
 		  <fieldset >
 		  
 		    <div class="mb-3">
@@ -38,10 +38,11 @@ th:replace="normal/base::layout(~{::section})"
 		    </div>
 		    
 		    <div class="mb-3">
-		      <label for="emailLabel" class="form-label">Email</label>
+		      <label for="emailLabel" class="form-label">Email (Cannot be modified)</label>
 		      <input type="email" 
 		      name="email" 
 		      class="form-control" 
+		      readonly
 		      placeholder="Enter a valid email address"
 		      th:field="${cUser.email}"
 		      th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}"
@@ -49,24 +50,6 @@ th:replace="normal/base::layout(~{::section})"
 		      <div id="validationServerUsernameFeedback" 
 			       class="invalid-feedback"
 			       th:each="err : ${#fields.errors('email')}"
-			       th:text="${err}"
-			       >
-			        
-			      </div>
-		    </div>
-		    
-		    <div class="mb-3">
-		      <label for="passwordLabel" class="form-label">Password</label>
-		      <input type="password" 
-		       name="password" 
-		       class="form-control" 
-		       placeholder="Enter your password" 
-		       th:field="${cUser.password}"
-		       th:classappend="${#fields.hasErrors('password') ? 'is-invalid':''}"
-		       >
-		       <div id="validationServerUsernameFeedback" 
-			       class="invalid-feedback"
-			       th:each="err : ${#fields.errors('password')}"
 			       th:text="${err}"
 			       >
 			        
@@ -88,9 +71,49 @@ th:replace="normal/base::layout(~{::section})"
 				  <option value="trans">Transformer</option>
 			</select>
 			</div>
+			
+			
+			<h3 class="text-center">Change Password</h3>
+			
+			 <div class="mb-3">
+		      <label for="passwordLabel" class="form-label">Old Password</label>
+		      <input type="password" 
+		       name="password" 
+		       class="form-control" 
+		       placeholder="Enter your password" 
+		       th:field="${cUser.password}"
+		       th:classappend="${#fields.hasErrors('password') ? 'is-invalid':''}"
+		       >
+		       <div id="validationServerUsernameFeedback" 
+			       class="invalid-feedback"
+			       th:each="err : ${#fields.errors('password')}"
+			       th:text="${err}"
+			       >
+			        
+			      </div>
+		    </div>
 		    
+		     <div class="mb-3">
+		      <label for="passwordLabel" class="form-label">New Password</label>
+		      <input type="password" 
+		       name="password_new" 
+		       class="form-control" 
+		       placeholder="Enter your password" 
+		       
+		       th:classappend="${#fields.hasErrors('password') ? 'is-invalid':''}"
+		       >
+		       <div id="validationServerUsernameFeedback" 
+			       class="invalid-feedback"
+			       th:each="err : ${#fields.errors('password')}"
+			       th:text="${err}"
+			       >
+			        
+			      </div>
+		    </div>
 		    
+		    <div class="updateSubmitBtn text-center mb-2">
 		    <button type="submit" class="btn btn-primary">Update</button>
+		    </div>
 		  </fieldset>
 	</form>
 	</div>

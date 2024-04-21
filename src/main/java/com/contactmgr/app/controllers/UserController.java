@@ -17,6 +17,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,6 +41,8 @@ public class UserController {
 	private UserRepository userDao;
 	@Autowired
 	private ContactRepository contactDao;
+	@Autowired
+	private BCryptPasswordEncoder passEncoder;
 
 	
 	
@@ -237,10 +240,43 @@ public class UserController {
 	
 	@RequestMapping("/update-user")
 	public String updateUser(Model model) {
-		model.addAttribute("title","Update User - Smart Contacts Manager");
+		model.addAttribute("title","Profile Settings - Smart Contacts Manager");
 		return "normal/updateProfile";
 	}
 	
+	@PostMapping("/process-update-profile")
+	public String updateUserHandler(Principal principal,
+			@RequestParam("name") String name,
+			@RequestParam("gender") String gender,
+			@RequestParam("password") String oldPassword,
+			@RequestParam("password_new") String newPassword,
+			Model model
+			) {
+		// fetch cUser to be updated
+		User cUser = this.userDao.getUserByEmail(principal.getName());
+		
+		cUser.setName(name);
+		cUser.setGender(gender);
+		
+		try {
+			
+			// update if old password matches in db
+			if(this.passEncoder.matches(oldPassword, cUser.getPassword())){
+				// change pass
+				cUser.setPassword(this.passEncoder.encode(newPassword));
+				this.userDao.save(cUser);
+			}else {
+				System.out.println("password didn't match with existing password ! Please try again...");
+				model.addAttribute("matchingErr","password didn't match with existing password ! Please try again...");
+			}
+			
+		} catch (Exception e) {
+			System.out.println("exception occured");
+			e.printStackTrace();
+		}
+		
+		return "normal/userDashboard";
+	}
 	
 	
 	

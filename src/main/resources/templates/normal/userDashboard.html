@@ -14,6 +14,12 @@ th:replace="normal/base::layout(~{::section})"
                 <div class="row align-items-center flex-row-reverse">
                     <div class="col-lg-6">
                         <div class="about-text go-to">
+                        
+                        
+                        <div th:if="${matchingErr != null}" class="alert alert-danger" role="alert">
+						  <p th:text="${matchingErr}"></p>
+						</div>
+                        
                             <h3 class="dark-color">Welcome</h3>
                             <br />
                             <p th:text="${cUser.about}"></p>
